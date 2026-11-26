@@ -1,0 +1,252 @@
+{
+ "stage": "final",
+ "e2e_version": "mt2kd-e2e-v1",
+ "scale": "main",
+ "data_sig": "162b0041cfdd",
+ "final": {
+  "best_stage2_epoch": 15,
+  "asr_dev_clean": {
+   "wer": 0.460699974265652,
+   "word_errors": 25063,
+   "words": 54402,
+   "utterances": 2703,
+   "cer": 0.15293146961755,
+   "char_errors": 44114,
+   "chars": 288456
+  },
+  "asr_test_clean": {
+   "wer": 0.4508330797321972,
+   "word_errors": 23703,
+   "words": 52576,
+   "utterances": 2620,
+   "cer": 0.15060206727524597,
+   "char_errors": 42399,
+   "chars": 281530
+  },
+  "at_val_mAP_200": 0.39355162326910703,
+  "sv_selection_eer": 0.0906,
+  "sv_official": {
+   "veri_test2.txt": {
+    "status": "official",
+    "trials": 37720,
+    "target": 18860,
+    "eer": 0.08435843054082715,
+    "scoring": "cosine, no score normalisation"
+   }
+  },
+  "teacher_sv_official": {
+   "veri_test2.txt": {
+    "status": "official",
+    "trials": 37720,
+    "target": 18860,
+    "eer": 0.00408271474019088,
+    "scoring": "cosine, no score normalisation"
+   }
+  },
+  "teacher_at_val_mAP_mapped": 0.5518672269378905
+ },
+ "stage2_history": [
+  {
+   "asr_dev_wer": 0.9334767104150583,
+   "asr_dev_cer": 0.37572801397786837,
+   "at_val_mAP": 0.39100605357038726,
+   "sv_val_eer": 0.0455,
+   "score": 0.529323552281557,
+   "epoch": 1,
+   "update": 1520,
+   "minutes": 5.8,
+   "train_asr": 4.828062812695329,
+   "train_at": 0.048834131515677066,
+   "train_sv": 4.063237204450684
+  },
+  {
+   "asr_dev_wer": 0.8486085070401823,
+   "asr_dev_cer": 0.4292474415508778,
+   "at_val_mAP": 0.20048837275267017,
+   "sv_val_eer": 0.1261,
+   "score": 0.5914067114291708,
+   "epoch": 2,
+   "update": 3036,
+   "minutes": 21.6,
+   "train_asr": 1.8618506845675016,
+   "train_at": 0.03937854792694656,
+   "train_sv": 1.741915625022313
+  },
+  {
+   "asr_dev_wer": 0.7874159038270652,
+   "asr_dev_cer": 0.3413518872895693,
+   "at_val_mAP": 0.2579756474432228,
+   "sv_val_eer": 0.1244,
+   "score": 0.5512800854612808,
+   "epoch": 3,
+   "update": 4554,
+   "minutes": 20.5,
+   "train_asr": 1.5882424845157332,
+   "train_at": 0.03447033903869854,
+   "train_sv": 1.6133834191386134
+  },
+  {
+   "asr_dev_wer": 0.7283739568398221,
+   "asr_dev_cer": 0.29714757190004715,
+   "at_val_mAP": 0.3255162270291337,
+   "sv_val_eer": 0.12050000000000005,
+   "score": 0.5077859099368961,
+   "epoch": 4,
+   "update": 6071,
+   "minutes": 19.9,
+   "train_asr": 1.4790175414773736,
+   "train_at": 0.03074080150650993,
+   "train_sv": 1.218153671335023
+  },
+  {
+   "asr_dev_wer": 0.7002499908091614,
+   "asr_dev_cer": 0.2730087084338686,
+   "at_val_mAP": 0.3355119881835115,
+   "sv_val_eer": 0.11960000000000004,
+   "score": 0.49477933420855,
+   "epoch": 5,
+   "update": 7587,
+   "minutes": 19.8,
+   "train_asr": 1.3474372016756158,
+   "train_at": 0.026715128989826864,
+   "train_sv": 1.0167011642328634
+  },
+  {
+   "asr_dev_wer": 0.642421234513437,
+   "asr_dev_cer": 0.23771043070693623,
+   "at_val_mAP": 0.3750798759222996,
+   "sv_val_eer": 0.1254,
+   "score": 0.46424711953037917,
+   "epoch": 6,
+   "update": 9105,
+   "minutes": 19.5,
+   "train_asr": 1.0153937904540635,
+   "train_at": 0.021662368604423853,
+   "train_sv": 0.9202520648720363
+  },
+  {
+   "asr_dev_wer": 0.6029006286533584,
+   "asr_dev_cer": 0.21986368804947723,
+   "at_val_mAP": 0.37375558138317927,
+   "sv_val_eer": 0.1149,
+   "score": 0.4480150157567264,
+   "epoch": 7,
+   "update": 10624,
+   "minutes": 19.1,
+   "train_asr": 0.7334087636909987,
+   "train_at": 0.01826454467317533,
+   "train_sv": 0.8372766710908742
+  },
+  {
+   "asr_dev_wer": 0.5771662806514466,
+   "asr_dev_cer": 0.20696744044152315,
+   "at_val_mAP": 0.40422400207234505,
+   "sv_val_eer": 0.1146,
+   "score": 0.4291807595263672,
+   "epoch": 8,
+   "update": 12145,
+   "minutes": 18.8,
+   "train_asr": 0.6466505525931912,
+   "train_at": 0.014999852056431324,
+   "train_sv": 0.7002741900828874
+  },
+  {
+   "asr_dev_wer": 0.5644829234219331,
+   "asr_dev_cer": 0.198709681892559,
+   "at_val_mAP": 0.3902175609035302,
+   "sv_val_eer": 0.09950000000000003,
+   "score": 0.42458845417280094,
+   "epoch": 9,
+   "update": 13660,
+   "minutes": 18.6,
+   "train_asr": 0.5832182267253191,
+   "train_at": 0.012361135954546824,
+   "train_sv": 0.6212686200267857
+  },
+  {
+   "asr_dev_wer": 0.5422778574317121,
+   "asr_dev_cer": 0.1921471558920598,
+   "at_val_mAP": 0.4041551345207371,
+   "sv_val_eer": 0.096,
+   "score": 0.4113742409703251,
+   "epoch": 10,
+   "update": 15174,
+   "minutes": 18.1,
+   "train_asr": 0.5317942620108002,
+   "train_at": 0.01016689628225977,
+   "train_sv": 0.49500288988538194
+  },
+  {
+   "asr_dev_wer": 0.5064335870004779,
+   "asr_dev_cer": 0.1703587375544277,
+   "at_val_mAP": 0.3988129286904724,
+   "sv_val_eer": 0.0962,
+   "score": 0.4012735527700018,
+   "epoch": 11,
+   "update": 16691,
+   "minutes": 17.9,
+   "train_asr": 0.49456239082994735,
+   "train_at": 0.008671494363886879,
+   "train_sv": 0.4501715554884454
+  },
+  {
+   "asr_dev_wer": 0.486710047424727,
+   "asr_dev_cer": 0.15951132928418893,
+   "at_val_mAP": 0.4019961906116965,
+   "sv_val_eer": 0.0951,
+   "score": 0.3932712856043435,
+   "epoch": 12,
+   "update": 18208,
+   "minutes": 17.6,
+   "train_asr": 0.46256554736865785,
+   "train_at": 0.00689107590844318,
+   "train_sv": 0.36959331330403977
+  },
+  {
+   "asr_dev_wer": 0.4883460166905628,
+   "asr_dev_cer": 0.165706381562526,
+   "at_val_mAP": 0.40537122008629806,
+   "sv_val_eer": 0.0928,
+   "score": 0.3919249322014216,
+   "epoch": 13,
+   "update": 19727,
+   "minutes": 17.6,
+   "train_asr": 0.4345792004152348,
+   "train_at": 0.005832319131947034,
+   "train_sv": 0.31397929218766135
+  },
+  {
+   "asr_dev_wer": 0.4738428734237712,
+   "asr_dev_cer": 0.15667207477050227,
+   "at_val_mAP": 0.3980291402998434,
+   "sv_val_eer": 0.0944,
+   "score": 0.39007124437464263,
+   "epoch": 14,
+   "update": 21241,
+   "minutes": 17.6,
+   "train_asr": 0.4148995608091354,
+   "train_at": 0.004711495237234904,
+   "train_sv": 0.3015162357578014
+  },
+  {
+   "asr_dev_wer": 0.460699974265652,
+   "asr_dev_cer": 0.15293146961755,
+   "at_val_mAP": 0.39355162326910703,
+   "sv_val_eer": 0.0906,
+   "score": 0.38591611699884837,
+   "epoch": 15,
+   "update": 22757,
+   "minutes": 17.6,
+   "train_asr": 0.39049764364723144,
+   "train_at": 0.00392494036286054,
+   "train_sv": 0.2719790148481732
+  }
+ ],
+ "deviations_from_paper": [
+  "teachers: WavLM-Large / SSLAM / ReDimNet2-B6 (enhancement) instead of Whisper / BEATs / ECAPA",
+  "Stage 2 ASR: CTC with characters + greedy decoding instead of a neural transducer",
+  "Stage 2 AT on FSD50K (200 classes) instead of AudioSet; SV on a VoxCeleb1 subset",
+  "batches contain one task each (interleaved); every dataset is used completely in every epoch",
+  "fixed loss balancing by initial loss values; no checkpoint averaging"
+ ]
+}

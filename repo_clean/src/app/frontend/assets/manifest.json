@@ -1,0 +1,9 @@
+{
+  "name": "MT2KD Audio Intelligence",
+  "short_name": "MT2KD",
+  "description": "One compact distilled audio encoder for speech recognition, audio tagging and speaker verification.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3F3EE",
+  "theme_color": "#F3F3EE"
+}

@@ -1,0 +1,10 @@
+{
+ "value": 0.4283025606540205,
+ "status": "provisional",
+ "method": "EER threshold on LibriSpeech dev-clean pairs (1,770 pairs, 150 same-speaker; cross-domain)",
+ "eer": 0.013333333333333334,
+ "mean_cos_same": 0.7445030268127087,
+ "mean_cos_diff": 0.14200160706644627,
+ "model": "Zipformer-S",
+ "note": "same method as the Zipformer-M export (0.294); a VoxCeleb1-validation threshold can replace it later"
+}

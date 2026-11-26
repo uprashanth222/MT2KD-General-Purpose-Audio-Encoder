@@ -1,0 +1,6 @@
+# Extra words for the language model, one per line (it comes from old public-domain books, so modern words are missing).
+# Keep the list short: every word here becomes a little easier to recognise, also by mistake. Restart the app after editing.
+YOUTUBE
+SUBSCRIBE
+INSTAGRAM
+WHATSAPP

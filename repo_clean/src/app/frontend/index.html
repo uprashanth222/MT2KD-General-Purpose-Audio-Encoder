@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MT2KD Audio Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<link rel="manifest" href="assets/manifest.json">
+<meta name="theme-color" content="#F3F3EE">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+
+<div class="glow a" aria-hidden="true"></div>
+<div class="glow b" aria-hidden="true"></div>
+
+<header class="wrap nav">
+  <nav class="nav-in" aria-label="Main">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h1.5M8 8v8M12 4v16M16 8v8M19.5 12H20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      MT2KD
+    </a>
+    <div class="links">
+      <a href="#model">Model</a><a href="#teachers">Teachers</a><a href="#upload">Upload</a><a href="#output">Output</a><a href="#evaluation">Evaluation</a>
+    </div>
+
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" data-label="01 / Overview">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">MT2KD · multi-task audio intelligence</p>
+        <h1 class="h-xl"><span>One encoder.</span><span class="soft">Three ways</span><span>to listen.</span></h1>
+        <p class="lede">MT2KD distils three specialist models into one compact audio encoder. Upload a recording once, then transcribe it, tag its sounds and check who is speaking.</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#upload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>Upload audio</a>
+          <a class="btn" href="#model">How the model works</a>
+        </div>
+      </div>
+      <div>
+        <div class="stage" aria-label="Animated waveform passing through the shared encoder">
+          <canvas id="heroWave"></canvas>
+          <div class="call c1"><span class="tag mono">Input / <b>16 kHz mono</b></span><span class="lead" style="width:46px"></span><span class="dot"></span></div>
+          <div class="call c2"><span class="dot"></span><span class="lead" style="width:40px"></span><span class="tag mono">Shared encoder / <b class="enc-name">Zipformer-S</b></span></div>
+          <div class="call c3" style="flex-direction:column;align-items:flex-start"><span class="dot" style="margin-left:4px"></span><span class="vline" style="height:26px;margin-left:8px"></span><span class="tag mono">Heads / <b>ASR · AT · SV</b></span></div>
+        </div>
+        <div class="specs">
+          <div class="spec"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/></svg></div><div><small class="mono">Encoder</small><span class="enc-name">Zipformer-S</span></div></div>
+          <div class="spec"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="7" r="2.5"/><circle cx="6" cy="17" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8.3 8l7.4 3M8.3 16l7.4-3"/></svg></div><div><small class="mono">Teachers</small><span>3 + assistant</span></div></div>
+          <div class="spec"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h10M4 17h13"/></svg></div><div><small class="mono">Tasks</small><span>ASR · AT · SV</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="model" data-label="02 / The model">
+    <div class="wrap">
+      <div class="arch-head">
+        <div class="reveal">
+          <h2 class="h-lg">How the model is trained</h2>
+        </div>
+        <div class="reveal">
+          <p class="lede">Each teacher is the best at one job. The student encoder learns from all three, with the 64M Zipformer-M as a teaching assistant, then gets fine-tuned on labelled data for every task.</p>
+          <div class="toggle" role="group" aria-label="Training stage">
+            <button id="st1" aria-pressed="true">Stage 1 · Distil</button>
+            <button id="st2" aria-pressed="false">Stage 2 · Fine-tune</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram reveal">
+        <svg id="arch" data-stage="1" viewBox="0 0 1000 540" role="img" aria-label="Diagram: WavLM-Large, SSLAM and ReDimNet2-B6 distil into a shared Zipformer-S encoder, helped by the frozen Zipformer-M as a teaching assistant; which feeds ASR, audio tagging and speaker heads trained on LibriSpeech, FSD50K and VoxCeleb1.">
+          <defs>
+            <linearGradient id="plate" x1="0" x2="1"><stop offset="0" stop-color="#F6F7F2"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9ECE3"/></linearGradient>
+          </defs>
+          <!-- stage 1: teachers -->
+          <g class="s1">
+            <g class="flow">
+              <path id="t1" d="M262 98 C 340 98, 330 200, 400 210" stroke="#141613" stroke-dasharray="3 4"/>
+              <path id="t2" d="M262 235 C 320 235, 340 235, 400 235" stroke="#141613" stroke-dasharray="3 4"/>
+              <path id="t3" d="M262 372 C 340 372, 330 270, 400 260" stroke="#141613" stroke-dasharray="3 4"/>
+            </g>
+            <g class="node" font-size="12">
+              <rect x="40" y="62" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="60" y="92" fill="#141613" font-size="13">WAVLM-LARGE</text>
+              <text x="60" y="114" fill="#6C7067" font-size="11">TEACHER · SPEECH</text>
+              <rect x="40" y="199" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="60" y="229" fill="#141613" font-size="13">SSLAM</text>
+              <text x="60" y="251" fill="#6C7067" font-size="11">TEACHER · SOUND EVENTS</text>
+              <rect x="40" y="336" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="60" y="366" fill="#141613" font-size="13">REDIMNET2-B6</text>
+              <text x="60" y="388" fill="#6C7067" font-size="11">TEACHER · SPEAKERS</text>
+            </g>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#t1"/></animateMotion></circle>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2.2s" begin=".5s" repeatCount="indefinite"><mpath href="#t2"/></animateMotion></circle>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2.2s" begin="1s" repeatCount="indefinite"><mpath href="#t3"/></animateMotion></circle>
+            <text x="300" y="54" fill="#6C7067" font-size="10.5">KNOWLEDGE DISTILLATION</text>
+          </g>
+
+          <!-- teaching assistant (both stages): frozen 64M Zipformer-M -->
+          <g class="ta">
+            <path id="ta1" d="M340 479 C 385 479, 382 398, 404 398" fill="none" stroke="#6E9E4C" stroke-dasharray="3 4"/>
+            <rect x="40" y="440" width="300" height="78" rx="14" fill="#F3F8EC" stroke="#B9D39E" stroke-dasharray="4 3"/>
+            <text x="60" y="467" fill="#141613" font-size="13">ZIPFORMER-M (64M)</text>
+            <text x="60" y="487" fill="#3F6527" font-size="11">TEACHING ASSISTANT · FROZEN</text>
+            <text x="60" y="505" fill="#6C7067" font-size="10">STAGES 1+2 · GIVES STACKS S1, S2, S6</text>
+            <circle r="4" fill="#6E9E4C"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#ta1"/></animateMotion></circle>
+          </g>
+
+          <!-- encoder: exploded plates -->
+          <g id="plates">
+            <rect x="420" y="128" width="170" height="24" rx="8" fill="url(#plate)" stroke="#D3D7CC"/>
+            <rect x="428" y="166" width="170" height="24" rx="8" fill="url(#plate)" stroke="#D3D7CC"/>
+            <rect x="436" y="204" width="170" height="24" rx="8" fill="#E2EED5" stroke="#B9D39E"/>
+            <rect x="436" y="242" width="170" height="24" rx="8" fill="url(#plate)" stroke="#D3D7CC"/>
+            <rect x="428" y="280" width="170" height="24" rx="8" fill="url(#plate)" stroke="#D3D7CC"/>
+            <rect x="420" y="318" width="170" height="24" rx="8" fill="url(#plate)" stroke="#D3D7CC"/>
+            <g fill="#A3A79C">
+              <circle cx="436" cy="140" r="2.5"/><circle cx="444" cy="178" r="2.5"/><circle cx="452" cy="216" r="2.5" fill="#6E9E4C"/><circle cx="452" cy="254" r="2.5"/><circle cx="444" cy="292" r="2.5"/><circle cx="436" cy="330" r="2.5"/>
+            </g>
+            <g fill="#6E9E4C" font-size="8.5"><text x="597" y="143">← M</text><text x="605" y="181">← M</text><text x="597" y="333">← M</text></g>
+          </g>
+          <path d="M505 100 V 120" stroke="#141613" stroke-width="1"/>
+          <circle cx="505" cy="100" r="3" fill="#141613"/>
+          <rect x="430" y="64" width="150" height="28" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+          <text x="505" y="82" text-anchor="middle" font-size="10.5" fill="#141613">INPUT / 16 kHz</text>
+          <path d="M505 350 V 384" stroke="#141613" stroke-width="1"/>
+          <circle cx="505" cy="350" r="3" fill="#6E9E4C"/>
+          <rect x="404" y="384" width="202" height="28" rx="14" fill="#E2EED5" stroke="#CFE0BC"/>
+          <text x="505" y="402" text-anchor="middle" font-size="10.5" fill="#3F6527">STUDENT / ZIPFORMER-S (22M)</text>
+
+          <!-- stage 2: heads -->
+          <g class="s2">
+            <g class="flow">
+              <path id="h1" d="M612 210 C 680 200, 670 98, 738 98" stroke="#6E9E4C"/>
+              <path id="h2" d="M612 235 C 670 235, 680 235, 738 235" stroke="#6E9E4C"/>
+              <path id="h3" d="M612 260 C 680 270, 670 372, 738 372" stroke="#6E9E4C"/>
+            </g>
+            <g class="node">
+              <rect x="738" y="62" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="758" y="92" fill="#141613" font-size="13">ASR HEAD</text>
+              <text x="758" y="114" fill="#6C7067" font-size="11">→ TRANSCRIPT</text>
+              <rect x="738" y="199" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="758" y="229" fill="#141613" font-size="13">TAGGING HEAD</text>
+              <text x="758" y="251" fill="#6C7067" font-size="11">→ LABELS + CONFIDENCE</text>
+              <rect x="738" y="336" width="222" height="72" rx="14" fill="#FBFBF8" stroke="#E1E3DA"/>
+              <text x="758" y="366" fill="#141613" font-size="13">SPEAKER HEAD</text>
+              <text x="758" y="388" fill="#6C7067" font-size="11">→ EMBEDDING</text>
+            </g>
+            <g font-size="10" fill="#3F6527">
+              <rect x="842" y="140" width="104" height="22" rx="11" fill="#E2EED5"/><text x="894" y="155" text-anchor="middle">LIBRISPEECH</text>
+              <rect x="862" y="277" width="84" height="22" rx="11" fill="#E2EED5"/><text x="904" y="292" text-anchor="middle">FSD50K</text>
+              <rect x="852" y="414" width="94" height="22" rx="11" fill="#E2EED5"/><text x="899" y="429" text-anchor="middle">VOXCELEB1</text>
+            </g>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#h1"/></animateMotion></circle>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2s" begin=".4s" repeatCount="indefinite"><mpath href="#h2"/></animateMotion></circle>
+            <circle class="pulse" r="4" fill="#6E9E4C"><animateMotion dur="2s" begin=".8s" repeatCount="indefinite"><mpath href="#h3"/></animateMotion></circle>
+            <text x="636" y="54" fill="#6C7067" font-size="10.5">SUPERVISED FINE-TUNING</text>
+          </g>
+        </svg>
+      </div>
+      <div class="stage-note reveal">
+        <div id="n1" class="on"><span class="mono">Stage 1 / Distil</span><p>WavLM-Large, SSLAM and ReDimNet2-B6 act as teachers, and the finished 64M Zipformer-M acts as a frozen teaching assistant. The 22M student starts from three layer stacks copied from Zipformer-M (S1, S2, S6) and learns to reproduce what the teachers and the assistant know, without any labels.</p></div>
+        <div id="n2"><span class="mono">Stage 2 / Fine-tune</span><p>The shared encoder and its three task heads train on LibriSpeech, FSD50K and VoxCeleb1 together. The teaching assistant stays in the loop: the student also learns to match Zipformer-M’s transcription, tagging and speaker outputs.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHERS -->
+  <section class="teachers" id="teachers" data-label="03 / Teachers">
+    <div class="wrap t-intro reveal">
+      <div class="stack-head">
+        <h2 class="h-lg">The teacher models</h2>
+        <p class="lede">Each teacher is built for one task. The original MT2KD paper used Whisper-large-v3, BEATs and ECAPA-TDNN. We replaced each one after a measured comparison on our own data.</p>
+      </div>
+    </div>
+
+    <div class="t-scroll" id="tScroll">
+      <div class="t-stage">
+        <div class="wrap">
+          <div class="t-rail" role="tablist" aria-label="Teacher models">
+            <button class="on" role="tab"><span class="lbl mono"><b>01</b>WavLM-Large · ASR</span><span class="trk"><i></i></span></button>
+            <button role="tab"><span class="lbl mono"><b>02</b>SSLAM · AT</span><span class="trk"><i></i></span></button>
+            <button role="tab"><span class="lbl mono"><b>03</b>ReDimNet2-B6 · SV</span><span class="trk"><i></i></span></button>
+          </div>
+
+          <div class="t-cards">
+            <!-- WHISPER -->
+            <article class="model on reveal" data-label="03 / WavLM">
+              <div class="m-vis">
+                <div class="m-head mono"><span>WavLM-Large / inside</span><span class="live"><span class="dot"></span>Live</span></div>
+                <div class="pipe">
+                  <div class="st"><div class="st-l"><small>01 · Input</small><b>Raw waveform</b><span>16 kHz</span></div><div class="st-w"><canvas data-kind="wave" data-seed="11"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>02 · Features</small><b>CNN feature encoder</b><span>7 conv blocks · 50 Hz</span></div><div class="st-w"><canvas data-kind="layers" data-n="7"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>03 · Encoder</small><b>Transformer encoder</b><span>24 layers · 1024-D</span></div><div class="st-w"><canvas data-kind="layers" data-n="24"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>04 · Target</small><b>Layer-24 features</b><span>2 frames → 2048-D @ 25 Hz</span></div><div class="st-w"><canvas data-kind="embed"></canvas></div></div>
+                </div>
+              </div>
+              <div class="m-info">
+                <div class="m-kick mono" style="--i:0"><b>ASR</b>Teacher 01 · Speech recognition</div>
+                <h2 style="--i:1">WavLM-Large</h2>
+                <p class="m-by mono" style="--i:2">Microsoft · 2021</p>
+                <p class="body" style="--i:3">WavLM learns speech without transcripts. During pre-training it hears audio with parts masked out and other speech or noise mixed in, and learns to predict the clean speech underneath. MT2KD distils its final-layer features into the student for spoken content.</p>
+                <div class="m-specs" style="--i:4"><div><small>Parameters</small><span class="num">316M</span></div><div><small>Architecture</small><span>CNN encoder + 24-layer Transformer</span></div><div><small>Input</small><span>Raw 16 kHz waveform</span></div><div><small>Pre-training</small><span>94k h: Libri-Light, GigaSpeech, VoxPopuli</span></div></div>
+                <p class="m-why" style="--i:5"><b>Why WavLM:</b> replaces Whisper-large-v3 from the paper. With the same student and 2 h of distillation, the WavLM-taught student reached 64.93% probe WER on dev-clean, against 81.93% for the Whisper-taught one.</p>
+                <div class="sizes" style="--i:6"><div class="hd mono"><span>Model size</span><span>log scale</span></div><div class="srow me"><span>WavLM</span><span class="b"><i style="--w:76%"></i></span><span class="v">316M</span></div><div class="srow"><span>SSLAM</span><span class="b"><i style="--w:59%"></i></span><span class="v">90M</span></div><div class="srow"><span>ReDimNet2</span><span class="b"><i style="--w:33%"></i></span><span class="v">12.3M</span></div></div>
+              </div>
+            </article>
+            <article class="model reveal" data-label="03 / SSLAM">
+              <div class="m-vis">
+                <div class="m-head mono"><span>SSLAM / inside</span><span class="live"><span class="dot"></span>Live</span></div>
+                <div class="pipe">
+                  <div class="st"><div class="st-l"><small>01 · Input</small><b>Spectrogram patches</b><span>log-mel fbank</span></div><div class="st-w"><canvas data-kind="patches"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>02 · Pre-training</small><b>Audio mixtures</b><span>overlapping sounds</span></div><div class="st-w"><canvas data-kind="mix"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>03 · Encoder</small><b>Transformer encoder</b><span>ViT-Base size</span></div><div class="st-w"><canvas data-kind="layers" data-n="12"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>04 · Output</small><b>Sound event scores</b><span>527 AudioSet classes</span></div><div class="st-w"><canvas data-kind="tags"></canvas></div></div>
+                </div>
+              </div>
+              <div class="m-info">
+                <div class="m-kick mono" style="--i:0"><b>AT</b>Teacher 02 · Audio tagging</div>
+                <h2 style="--i:1">SSLAM</h2>
+                <p class="m-by mono" style="--i:2">Alex et al. · ICLR 2025</p>
+                <p class="body" style="--i:3">SSLAM is a self-supervised audio model that is also trained on mixtures of sounds, so it copes with recordings where several things happen at once. The fine-tuned version scores the 527 AudioSet classes. MT2KD distils those scores into the student.</p>
+                <div class="m-specs" style="--i:4"><div><small>Parameters</small><span class="num">90.4M</span></div><div><small>Architecture</small><span>Transformer on spectrogram patches</span></div><div><small>Fine-tuned on</small><span>AudioSet-2M (paper: 50.2 mAP)</span></div><div><small>Used here</small><span>AS2M fine-tuned checkpoint</span></div></div>
+                <p class="m-why" style="--i:5"><b>Why SSLAM:</b> replaces BEATs from the paper. On FSD50K validation (192 classes mapped by AudioSet ID) SSLAM scored 55.19% mAP, against 50.29% for BEATs.</p>
+                <div class="sizes" style="--i:6"><div class="hd mono"><span>Model size</span><span>log scale</span></div><div class="srow"><span>WavLM</span><span class="b"><i style="--w:76%"></i></span><span class="v">316M</span></div><div class="srow me"><span>SSLAM</span><span class="b"><i style="--w:59%"></i></span><span class="v">90M</span></div><div class="srow"><span>ReDimNet2</span><span class="b"><i style="--w:33%"></i></span><span class="v">12.3M</span></div></div>
+              </div>
+            </article>
+            <article class="model reveal" data-label="03 / ReDimNet2">
+              <div class="m-vis">
+                <div class="m-head mono"><span>ReDimNet2-B6 / inside</span><span class="live"><span class="dot"></span>Live</span></div>
+                <div class="pipe">
+                  <div class="st"><div class="st-l"><small>01 · Features</small><b>Log-mel spectrogram</b><span>frames × mel bins</span></div><div class="st-w"><canvas data-kind="mel" data-rows="10"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>02 · Blocks</small><b>2D ↔ 1D reshaping</b><span>same features, two views</span></div><div class="st-w"><canvas data-kind="res2" data-labels="2D,1D,2D"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>03 · Pooling</small><b>Statistics over time</b><span>weighted mean + std</span></div><div class="st-w"><canvas data-kind="pool"></canvas></div></div>
+                  <div class="conn"><i></i></div>
+                  <div class="st"><div class="st-l"><small>04 · Output</small><b>Speaker embedding</b><span>192 numbers</span></div><div class="st-w"><canvas data-kind="embed"></canvas></div></div>
+                </div>
+              </div>
+              <div class="m-info">
+                <div class="m-kick mono" style="--i:0"><b>SV</b>Teacher 03 · Speaker verification</div>
+                <h2 style="--i:1">ReDimNet2-B6</h2>
+                <p class="m-by mono" style="--i:2">Yakovlev & Okhotnikov · 2026</p>
+                <p class="body" style="--i:3">ReDimNet2 switches between treating the spectrogram as an image (2D) and as a sequence (1D) by reshaping the same features, with pooling over time in the 1D path. That makes a small model very good at telling voices apart. MT2KD distils its 192-number speaker embedding.</p>
+                <div class="m-specs" style="--i:4"><div><small>Parameters</small><span class="num">12.3M</span></div><div><small>Architecture</small><span>ReDimNet2 (2D/1D reshaping)</span></div><div><small>Output</small><span>192-D speaker embedding</span></div><div><small>Checkpoint</small><span>trained on VoxCeleb2 only</span></div></div>
+                <p class="m-why" style="--i:5"><b>Why ReDimNet2:</b> replaces ECAPA-TDNN from the paper. We measured 0.408% EER on VoxCeleb1-O. WavLM was also tried as the speaker teacher and rejected (11.16% EER).</p>
+                <div class="sizes" style="--i:6"><div class="hd mono"><span>Model size</span><span>log scale</span></div><div class="srow"><span>WavLM</span><span class="b"><i style="--w:76%"></i></span><span class="v">316M</span></div><div class="srow"><span>SSLAM</span><span class="b"><i style="--w:59%"></i></span><span class="v">90M</span></div><div class="srow me"><span>ReDimNet2</span><span class="b"><i style="--w:33%"></i></span><span class="v">12.3M</span></div></div>
+              </div>
+            </article>
+          </div>
+          <p class="t-foot mono">Parameter counts and pre-training details come from each model's paper or model card. Comparison results are our own measurements.</p>
+        </div>
+      </div>
+    </div>
+    <div class="wrap ta-card reveal">
+      <div class="card">
+        <div class="top mono"><span>Teaching assistant</span><span class="badge">Frozen · 64M</span></div>
+        <h3>Zipformer-M</h3>
+        <p>Our first MT2KD student, trained with the three teachers above. The app now runs a smaller 22M Zipformer-S. The gap between 316M-parameter teachers and a 22M student is large, so the finished Zipformer-M sits in between as a teaching assistant (Mirzadeh et al., 2020): a model of the same design, only bigger, whose knowledge is easier for the small student to copy.</p>
+        <ul>
+          <li><b>Start:</b> three of the student’s six layer stacks (S1, S2, S6) are copied from Zipformer-M.</li>
+          <li><b>Stage 1:</b> besides the three teachers, the student matches Zipformer-M’s encoder features.</li>
+          <li><b>Stage 2:</b> besides the labels, the student matches Zipformer-M’s transcription, tagging and speaker outputs.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPLOAD -->
+  <section id="upload" data-label="04 / Upload">
+    <div class="wrap">
+      <div class="arch-head reveal">
+        <h2 class="h-lg">Try it on your own audio</h2>
+        <p class="lede">Add a recording and choose a task. The file stays loaded when you switch between tasks.</p>
+      </div>
+
+      <div class="up-grid reveal">
+        <!-- left: file -->
+        <div class="box" id="fileBox">
+          <div class="box-h mono"><span>01 / Audio</span><span id="fileState">No file yet</span></div>
+          <label class="dz" id="dz" for="fileIn">
+            <span class="dz-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></span>
+            <strong>Drop an audio file here</strong>
+            <span class="muted">or click to browse · WAV, MP3, FLAC</span>
+          </label>
+          <input type="file" id="fileIn" accept="audio/*,.wav,.mp3,.flac,.ogg,.m4a" hidden>
+          <div class="rec-row" id="recRow">
+            <span class="or">or</span>
+            <button class="recbtn" id="recStart" type="button"><span class="dot"></span>Record with your microphone</button>
+          </div>
+          <div class="rec-live" id="recLive" aria-live="polite">
+            <div class="rec-top"><span class="dot"></span><b>Recording…</b><span class="mono" id="recTime">00:00</span></div>
+            <div class="rec-meter" title="Input level"><i id="recLevel"></i></div>
+            <small>Speak normally, about 5–15 seconds works best. Recording stops by itself at 2:00.</small>
+            <div class="rec-actions"><button class="btn primary" id="recStop" type="button">Stop and use this recording</button><button class="linkbtn" id="recCancel" type="button" style="margin-top:0">Cancel</button></div>
+          </div>
+          <p class="err" id="err" hidden></p>
+          <div class="loaded" id="loaded">
+            <div class="file">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></div>
+              <div style="min-width:0"><b id="fName">file.wav</b><small class="mono" id="fMeta">—</small></div>
+              <span class="demo" id="sampleBadge" hidden>SAMPLE</span>
+            </div>
+            <canvas id="fWave" title="Click to play from here"></canvas>
+            <audio class="player" id="player" controls preload="metadata"></audio>
+            <div class="meta-row mono"><span id="fDur">—</span><span id="fCh">—</span><span>Resampled to 16 kHz</span></div>
+            <div class="acts"><button class="linkbtn" id="replace" type="button">Replace file</button><button class="linkbtn" id="recAgain" type="button">Record again</button></div>
+          </div>
+          <button class="linkbtn" id="useSample" type="button">No file handy? Use a sample clip</button>
+        </div>
+
+        <!-- right: task -->
+        <div class="box">
+          <div class="box-h mono"><span>02 / Task</span>
+            <div class="toggle small" role="group" aria-label="Run mode" id="runMode"><button aria-pressed="true" type="button">Demo</button><button aria-pressed="false" type="button" disabled>Live</button></div>
+          </div>
+          <p class="mode-note" id="modeNote">Demo: sample results, clearly labelled. No model is used.</p>
+          <div class="taskpick" role="radiogroup" aria-label="Task">
+            <button class="tp" role="radio" aria-checked="true" data-t="0" type="button"><b class="mono">ASR</b><strong>Transcribe</strong><span>Speech to text</span></button>
+            <button class="tp" role="radio" aria-checked="false" data-t="1" type="button"><b class="mono">AT</b><strong>Tag sounds</strong><span>Name the events</span></button>
+            <button class="tp" role="radio" aria-checked="false" data-t="2" type="button"><b class="mono">SV</b><strong>Verify speaker</strong><span>Same voice?</span></button>
+          </div>
+          <div class="cfg">
+            <div class="cfg-p on" data-c="0"><small class="mono">About the output</small><p>English speech. The transcript is upper case without punctuation. It is decoded with a word language model when one is installed; the plain model output is shown underneath for comparison. You can copy it or download it as .txt.</p></div>
+            <div class="cfg-p" data-c="1"><small class="mono">Show top labels</small><div class="toggle small" role="group" aria-label="Top labels" id="topK"><button aria-pressed="false" type="button">3</button><button aria-pressed="true" type="button">5</button><button aria-pressed="false" type="button">10</button></div></div>
+            <div class="cfg-p" data-c="2"><small class="mono">Verification mode</small>
+              <div class="toggle small" role="group" aria-label="Verification mode" id="svModeSw"><button aria-pressed="true" type="button">Reference + test</button><button aria-pressed="false" type="button">Registered speaker</button></div>
+              <div class="sv-ref" id="svRef"><label class="mini-dz" for="refIn"><span id="refName">+ Add a reference recording of the claimed speaker</span></label><input type="file" id="refIn" accept="audio/*" hidden>
+                <div class="ref-rec-row" id="refRecRow"><span class="or">or</span><button class="recbtn small" id="refRecStart" type="button"><span class="dot"></span>Record the reference with your microphone</button></div>
+                <div class="ref-rec-live" id="refRecLive" hidden aria-live="polite"><span class="dot"></span><b>Recording reference…</b><span class="mono" id="refRecTime">00:00</span>
+                  <span class="rec-meter" title="Input level"><i id="refRecLevel"></i></span>
+                  <button class="btn primary" id="refRecStop" type="button">Stop and use</button><button class="linkbtn" id="refRecCancel" type="button">Cancel</button></div>
+                <audio class="player" id="refPlayer" controls preload="metadata" hidden></audio>
+              </div>
+              <div class="sv-ref" id="svReg" hidden><select id="spk" aria-label="Registered speaker"></select><p class="hint" id="spkHint"></p></div>
+            </div>
+          </div>
+          <button class="btn primary run" id="run" type="button" disabled>Choose a file to start</button>
+          <ol class="status" id="status" hidden></ol>
+          <div class="result" id="result" hidden aria-live="polite"></div>
+          <div class="done" id="done" hidden><span>Simulated run finished (demo mode). Sample output is shown below.</span><a class="try" href="#output" id="seeOut">See the output <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTPUT PREVIEW -->
+  <section class="feat" id="output" data-label="05 / Output">
+    <div class="wrap">
+      <div class="feat-intro stack-head reveal">
+        <h2 class="h-lg">What the results look like</h2>
+        <p class="lede">Sample output for each task, using a demo clip.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="steps">
+          <article class="step on" data-step="0" data-label="05 / Speech">
+            <div class="code mono"><b>ASR</b>Speech recognition</div>
+            <h3 class="h-md">Speech, written down.</h3>
+            <p class="body">The ASR head turns speech into text you can read, copy and export. It learns from WavLM-Large and is fine-tuned on 30 h of LibriSpeech.</p>
+            <div class="facts"><div><small>Teacher</small><span>WavLM-Large</span></div><div><small>Data</small><span>LibriSpeech</span></div><div><small>Output</small><span>Transcript</span></div></div>
+            <a class="try" href="#upload">Transcribe a file <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="step" data-step="1" data-label="05 / Tagging">
+            <div class="code mono"><b>AT</b>Audio tagging</div>
+            <h3 class="h-md">Every sound, named.</h3>
+            <p class="body">The tagging head lists the sound events in a clip, several at once, each with a confidence score. It learns from SSLAM and is fine-tuned on FSD50K.</p>
+            <div class="facts"><div><small>Teacher</small><span>SSLAM</span></div><div><small>Data</small><span>FSD50K</span></div><div><small>Output</small><span>Labels + scores</span></div></div>
+            <a class="try" href="#upload">Tag a file <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+          <article class="step" data-step="2" data-label="05 / Speaker">
+            <div class="code mono"><b>SV</b>Speaker verification</div>
+            <h3 class="h-md">Same voice, or not.</h3>
+            <p class="body">The speaker head turns a voice into an embedding and compares it with another one against a calibrated threshold. It learns from ReDimNet2-B6 and is fine-tuned on VoxCeleb1.</p>
+            <div class="modes"><span class="chip" id="m1">Reference + test audio</span><span class="chip" id="m2">Registered speaker + test audio</span></div>
+            <div class="facts"><div><small>Teacher</small><span>ReDimNet2-B6</span></div><div><small>Data</small><span>VoxCeleb1</span></div><div><small>Output</small><span>Similarity</span></div></div>
+            <a class="try" href="#upload">Verify a speaker <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </article>
+        </div>
+
+        <div class="pin">
+          <div class="panel">
+            <div class="p-top">
+              <div class="file"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></div><div style="min-width:0"><b>platform_evening.wav</b><small class="mono">00:08 · 16 kHz · mono</small></div></div>
+              <span class="demo">DEMO DATA</span>
+            </div>
+            <div class="p-wave"><canvas id="featWave"></canvas></div>
+            <div class="time mono"><span id="tNow">00:00</span><span>00:08</span></div>
+            <div class="route">
+              <span class="enc enc-name">Zipformer-S</span><span class="arrow"></span>
+              <div class="heads" id="fheads"><span class="on">ASR</span><span>AT</span><span>SV</span></div>
+            </div>
+            <div class="outs">
+              <div class="out on" data-out="0">
+                <div class="out-h mono"><span>Output / Transcript</span><span id="wc">0 words</span></div>
+                <div class="transcript" id="tx"></div>
+                <div class="out-foot"><span class="chip">Copy</span><span class="chip">Export .txt</span></div>
+              </div>
+              <div class="out" data-out="1">
+                <div class="out-h mono"><span>Output / Sound events</span><span>Multi-label</span></div>
+                <div class="tags" id="tags"></div>
+              </div>
+              <div class="out" data-out="2">
+                <div class="out-h mono"><span id="svMode">Mode / Reference + test</span><span id="svPair">Pair A</span></div>
+                <div class="pair">
+                  <div class="mini"><small class="mono" id="refLbl">Reference</small><canvas id="svA"></canvas></div>
+                  <div class="mini"><small class="mono">Test</small><canvas id="svB"></canvas></div>
+                </div>
+                <div class="sim">
+                  <div class="sim-num"><strong id="simV">0.00</strong><span class="mono muted">Cosine similarity</span></div>
+                  <div class="gauge"><i id="simBar"></i><span class="th" style="left:50%"><span class="mono">Threshold 0.50</span></span></div>
+                  <div class="verdict yes" id="verdict"><i></i><span>Same speaker</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVALUATION -->
+  <section id="evaluation" data-label="06 / Evaluation">
+    <div class="wrap">
+      <div class="arch-head reveal">
+        <h2 class="h-lg">Evaluation</h2>
+        <p class="lede" id="evalLede">Measured on validation data for the model this app runs (best Stage-2 epoch). The official test-set numbers come from the final evaluation run.</p>
+      </div>
+      <div class="eval-grid">
+        <div class="card reveal"><div class="top mono"><span>ASR</span><span class="badge" id="evB0">Validation</span></div><h3>Word error rate</h3><p id="evD0">LibriSpeech dev-clean, greedy CTC, no language model. Lower is better.</p><div class="big"><strong id="evV0">44.26</strong><span class="mono muted">% WER</span></div><p class="ev-sub" id="evS0">With the LibriSpeech word LM: <b>19.34%</b> vs 44.25% greedy (held-out dev-clean speakers)</p><p class="ev-cmp" id="evC0" hidden></p></div>
+        <div class="card reveal"><div class="top mono"><span>AT</span><span class="badge" id="evB1">Validation</span></div><h3>Mean average precision</h3><p id="evD1">FSD50K validation split, 200 classes. Higher is better.</p><div class="big"><strong id="evV1">43.07</strong><span class="mono muted">% mAP</span></div><p class="ev-cmp" id="evC1" hidden></p></div>
+        <div class="card reveal"><div class="top mono"><span>SV</span><span class="badge" id="evB2">Validation</span></div><h3>Equal error rate</h3><p id="evD2">Held-out VoxCeleb1 speakers (not the official trial list). Lower is better.</p><div class="big"><strong id="evV2">5.28</strong><span class="mono muted">% EER</span></div><p class="ev-cmp" id="evC2" hidden></p></div>
+      </div>
+      <p class="t-foot mono" id="evFoot">Official results (LibriSpeech test-clean WER, VoxCeleb1-O EER): pending the final evaluation.</p>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section id="try" data-label="07 / Summary" style="padding-bottom:40px">
+    <div class="wrap">
+      <div class="cta reveal">
+        <div>
+          <h2 class="h-lg">Run it on a recording</h2>
+          <p class="lede">Demo mode shows every screen with clearly labelled sample results. Live mode runs your audio through the trained MT2KD model.</p>
+          <div class="hero-cta"><a class="btn primary" href="#upload">Upload audio</a><a class="btn" href="#teachers">Meet the teachers</a></div>
+        </div>
+        <div><canvas id="ctaWave"></canvas></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <div>
+      <a class="brand" href="#top"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h1.5M8 8v8M12 4v16M16 8v8M19.5 12H20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>MT2KD</a>
+      <p class="mono muted" style="margin-top:14px">Multi-task knowledge distillation · 2026</p>
+    </div>
+    <div class="flinks">
+      <a href="#model">Method <span>↗</span></a>
+      <a href="#evaluation">Evaluation <span>↗</span></a>
+      <a href="#upload">Upload audio <span>↗</span></a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js?v=2"></script>
+<script src="assets/js/app.js?v=2"></script>
+</body>
+</html>

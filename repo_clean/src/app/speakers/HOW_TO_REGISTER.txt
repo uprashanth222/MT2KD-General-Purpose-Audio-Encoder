@@ -1,0 +1,3 @@
+One folder per person, with 3 to 5 clean recordings of 5 to 15 seconds each (WAV, FLAC, OGG or MP3):
+  speakers/Siddhu/clip1.wav, clip2.wav, clip3.wav
+Underscores in folder names become spaces on the page. Restart the app after adding speakers.

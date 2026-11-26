@@ -1,0 +1,427 @@
+{
+ "stage": "final",
+ "round": 1,
+ "stage1_epochs_done": 30,
+ "stage1_best_epoch": 30,
+ "stage2_epochs": 15,
+ "batch": {
+  "max_batch_seconds": 800.0,
+  "max_batch_utts": 1024
+ },
+ "e2e_version": "mt2kd-lite-s20-v1",
+ "variant": "S20_TA",
+ "VAR": {
+  "ta_stage1": true,
+  "ta_stage2": true,
+  "inherit": true
+ },
+ "lite": {
+  "e0_dir": "/content/drive/MyDrive/MT2KD/results/MT2KD_E2E_main_E0",
+  "ta_stage1_weight": 1.0,
+  "ta_stage2_beta": 1.0,
+  "ta_stage2_temperature": 1.0,
+  "ta_stats_batches": 8,
+  "allow_data_mismatch": false,
+  "cpu_benchmark_utts": 20
+ },
+ "zip_student": {
+  "output_downsampling_factor": 2,
+  "downsampling_factor": [
+   1,
+   2,
+   4,
+   8,
+   4,
+   2
+  ],
+  "num_encoder_layers": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "encoder_dim": [
+   192,
+   256,
+   256,
+   256,
+   256,
+   256
+  ],
+  "encoder_unmasked_dim": [
+   192,
+   192,
+   192,
+   192,
+   192,
+   192
+  ],
+  "query_head_dim": [
+   32,
+   32,
+   32,
+   32,
+   32,
+   32
+  ],
+  "pos_head_dim": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "value_head_dim": [
+   12,
+   12,
+   12,
+   12,
+   12,
+   12
+  ],
+  "num_heads": [
+   4,
+   4,
+   4,
+   8,
+   4,
+   4
+  ],
+  "feedforward_dim": [
+   512,
+   768,
+   768,
+   768,
+   768,
+   768
+  ],
+  "cnn_module_kernel": [
+   31,
+   31,
+   15,
+   15,
+   15,
+   31
+  ],
+  "pos_dim": 48,
+  "causal": false
+ },
+ "scale": "main",
+ "data_sig": "e61a27e03254",
+ "base_sig": "162b0041cfdd",
+ "final": {
+  "best_stage2_epoch": 15,
+  "asr_dev_clean": {
+   "wer": 0.4425940222785927,
+   "word_errors": 24078,
+   "words": 54402,
+   "utterances": 2703,
+   "cer": 0.13890506697728597,
+   "char_errors": 40068,
+   "chars": 288456
+  },
+  "asr_test_clean": {
+   "wer": 0.43358186244674374,
+   "word_errors": 22796,
+   "words": 52576,
+   "utterances": 2620,
+   "cer": 0.13733882712321954,
+   "char_errors": 38665,
+   "chars": 281530
+  },
+  "at_val_mAP_200": 0.430713438545959,
+  "sv_selection_eer": 0.05279999999999996,
+  "sv_official": {
+   "veri_test2.txt": {
+    "status": "official",
+    "trials": 37720,
+    "target": 18860,
+    "eer": 0.04294803817603399,
+    "scoring": "cosine, no score normalisation"
+   }
+  },
+  "teacher_sv_official": {
+   "veri_test2.txt": {
+    "status": "official",
+    "trials": 37720,
+    "target": 18860,
+    "eer": 0.00408271474019088,
+    "scoring": "cosine, no score normalisation"
+   }
+  },
+  "teacher_at_val_mAP_mapped": 0.5518672269378905,
+  "model": {
+   "student": "Zipformer-S",
+   "variant": "S20_TA",
+   "encoder_params_M": 21.99,
+   "stage2_heads_params_M": 0.449,
+   "deployed_params_M": 22.44,
+   "size_fp32_MB": 85.6,
+   "inherited_params_M": 10.32
+  },
+  "cpu_benchmark": {
+   "Zipformer-S (this run)": {
+    "seconds": 3.566,
+    "audio_seconds": 144.8,
+    "rtf": 0.0246,
+    "encoder_params_M": 21.99
+   },
+   "Zipformer-M 64M (E0)": {
+    "seconds": 5.211,
+    "audio_seconds": 144.8,
+    "rtf": 0.036,
+    "encoder_params_M": 63.99
+   }
+  },
+  "comparison_vs_E0": {
+   "rows": [
+    {
+     "metric": "ASR test-clean WER (greedy)",
+     "e0": 0.4508330797321972,
+     "this": 0.43358186244674374
+    },
+    {
+     "metric": "ASR dev-clean WER (greedy)",
+     "e0": 0.460699974265652,
+     "this": 0.4425940222785927
+    },
+    {
+     "metric": "AT FSD50K val mAP (200 cl.)",
+     "e0": 0.39355162326910703,
+     "this": 0.430713438545959
+    },
+    {
+     "metric": "SV VoxCeleb1-O EER (official)",
+     "e0": 0.08435843054082715,
+     "this": 0.04294803817603399
+    }
+   ],
+   "e0_dir": "/content/drive/MyDrive/MT2KD/results/MT2KD_E2E_main_E0"
+  }
+ },
+ "stage2_history": [
+  {
+   "asr_dev_wer": 0.9588434248740855,
+   "asr_dev_cer": 0.40889078403638685,
+   "at_val_mAP": 0.4041482192869315,
+   "sv_val_eer": 0.0363,
+   "score": 0.5303317351957181,
+   "epoch": 1,
+   "update": 598,
+   "minutes": 10.6,
+   "train_asr": 9.621673914850975,
+   "train_at": 0.1124182768786947,
+   "train_sv": 6.7072038832387895,
+   "train_copy64m": 0.9602849108656015
+  },
+  {
+   "asr_dev_wer": 0.7415536193522297,
+   "asr_dev_cer": 0.2808851263277588,
+   "at_val_mAP": 0.38378499614641126,
+   "sv_val_eer": 0.0482,
+   "score": 0.4686562077352729,
+   "epoch": 2,
+   "update": 1195,
+   "minutes": 21.6,
+   "train_asr": 3.7279011615335125,
+   "train_at": 0.07040517705803116,
+   "train_sv": 1.8693560086348266,
+   "train_copy64m": 0.665397109881892
+  },
+  {
+   "asr_dev_wer": 0.6420536009705525,
+   "asr_dev_cer": 0.23497864492331585,
+   "at_val_mAP": 0.3865191481446965,
+   "sv_val_eer": 0.0636,
+   "score": 0.43971148427528534,
+   "epoch": 3,
+   "update": 1794,
+   "minutes": 21.5,
+   "train_asr": 2.286116210565175,
+   "train_at": 0.05518768910939495,
+   "train_sv": 0.8401807942189969,
+   "train_copy64m": 0.5150519548067963
+  },
+  {
+   "asr_dev_wer": 0.5993713466416676,
+   "asr_dev_cer": 0.21390437363064038,
+   "at_val_mAP": 0.39518418671073335,
+   "sv_val_eer": 0.0647,
+   "score": 0.42296238664364477,
+   "epoch": 4,
+   "update": 2392,
+   "minutes": 21.3,
+   "train_asr": 2.005725626259634,
+   "train_at": 0.0491803936039408,
+   "train_sv": 0.5475402109953295,
+   "train_copy64m": 0.4287725179783227
+  },
+  {
+   "asr_dev_wer": 0.6509503327083563,
+   "asr_dev_cer": 0.2333284799068142,
+   "at_val_mAP": 0.4087116202815868,
+   "sv_val_eer": 0.06669999999999998,
+   "score": 0.4363129041422565,
+   "epoch": 5,
+   "update": 2988,
+   "minutes": 21.1,
+   "train_asr": 1.697153627055965,
+   "train_at": 0.04036090889324744,
+   "train_sv": 0.4471121078187769,
+   "train_copy64m": 0.36542359821892173
+  },
+  {
+   "asr_dev_wer": 0.5464137347891621,
+   "asr_dev_cer": 0.18042613084837897,
+   "at_val_mAP": 0.4364050104207065,
+   "sv_val_eer": 0.0655,
+   "score": 0.39183624145615187,
+   "epoch": 6,
+   "update": 3585,
+   "minutes": 20.8,
+   "train_asr": 1.1405324846097868,
+   "train_at": 0.03232358529542883,
+   "train_sv": 0.37088142501983756,
+   "train_copy64m": 0.2834565893589352
+  },
+  {
+   "asr_dev_wer": 0.5048527627660748,
+   "asr_dev_cer": 0.16600798735335717,
+   "at_val_mAP": 0.4202685612705214,
+   "sv_val_eer": 0.062,
+   "score": 0.38219473383185115,
+   "epoch": 7,
+   "update": 4183,
+   "minutes": 20.6,
+   "train_asr": 0.80525828265164,
+   "train_at": 0.02588748497267564,
+   "train_sv": 0.344544334898153,
+   "train_copy64m": 0.23560202162616253
+  },
+  {
+   "asr_dev_wer": 0.484228521010257,
+   "asr_dev_cer": 0.15556272013755998,
+   "at_val_mAP": 0.4239709983619676,
+   "sv_val_eer": 0.0642,
+   "score": 0.37481917421609645,
+   "epoch": 8,
+   "update": 4781,
+   "minutes": 20.4,
+   "train_asr": 0.7059990286010586,
+   "train_at": 0.0217231577495113,
+   "train_sv": 0.30007672700357724,
+   "train_copy64m": 0.2134504166959682
+  },
+  {
+   "asr_dev_wer": 0.4896511157678027,
+   "asr_dev_cer": 0.15659927337271543,
+   "at_val_mAP": 0.4304764628475071,
+   "sv_val_eer": 0.0578,
+   "score": 0.37232488430676525,
+   "epoch": 9,
+   "update": 5378,
+   "minutes": 20.2,
+   "train_asr": 0.6540335143265659,
+   "train_at": 0.018186621678372223,
+   "train_sv": 0.2793146012592892,
+   "train_copy64m": 0.19974950437045577
+  },
+  {
+   "asr_dev_wer": 0.5072791441491121,
+   "asr_dev_cer": 0.17306972293868042,
+   "at_val_mAP": 0.42437069496299856,
+   "sv_val_eer": 0.05520000000000003,
+   "score": 0.3793694830620378,
+   "epoch": 10,
+   "update": 5975,
+   "minutes": 20.0,
+   "train_asr": 0.6156769590835048,
+   "train_at": 0.015397960983682424,
+   "train_sv": 0.25826661140176826,
+   "train_copy64m": 0.18842177804312987
+  },
+  {
+   "asr_dev_wer": 0.45614131833388477,
+   "asr_dev_cer": 0.14690975400061015,
+   "at_val_mAP": 0.41838573631547943,
+   "sv_val_eer": 0.05520000000000003,
+   "score": 0.36431852733946846,
+   "epoch": 11,
+   "update": 6572,
+   "minutes": 19.8,
+   "train_asr": 0.5809331703675936,
+   "train_at": 0.013131374790638434,
+   "train_sv": 0.23449552261147155,
+   "train_copy64m": 0.1766443856760947
+  },
+  {
+   "asr_dev_wer": 0.44785118194184037,
+   "asr_dev_cer": 0.1415640513631195,
+   "at_val_mAP": 0.4206132202345232,
+   "sv_val_eer": 0.051100000000000034,
+   "score": 0.3594459872357724,
+   "epoch": 12,
+   "update": 7169,
+   "minutes": 19.7,
+   "train_asr": 0.5463432118500748,
+   "train_at": 0.011176067183259874,
+   "train_sv": 0.22351816926838047,
+   "train_copy64m": 0.16718222361511959
+  },
+  {
+   "asr_dev_wer": 0.4616006764457189,
+   "asr_dev_cer": 0.1465873478104113,
+   "at_val_mAP": 0.4265428588508861,
+   "sv_val_eer": 0.0531,
+   "score": 0.3627192725316109,
+   "epoch": 13,
+   "update": 7767,
+   "minutes": 19.8,
+   "train_asr": 0.5177959948778152,
+   "train_at": 0.010043148595529298,
+   "train_sv": 0.2035250993198659,
+   "train_copy64m": 0.1565173847973035
+  },
+  {
+   "asr_dev_wer": 0.4588985699055182,
+   "asr_dev_cer": 0.14544332584518957,
+   "at_val_mAP": 0.4171585564182118,
+   "sv_val_eer": 0.053200000000000025,
+   "score": 0.36498000449576873,
+   "epoch": 14,
+   "update": 8364,
+   "minutes": 19.9,
+   "train_asr": 0.4941901964684055,
+   "train_at": 0.008898291073273867,
+   "train_sv": 0.19429079080816483,
+   "train_copy64m": 0.15000977881691127
+  },
+  {
+   "asr_dev_wer": 0.4425940222785927,
+   "asr_dev_cer": 0.13890506697728597,
+   "at_val_mAP": 0.430713438545959,
+   "sv_val_eer": 0.05279999999999996,
+   "score": 0.35489352791087786,
+   "epoch": 15,
+   "update": 8962,
+   "minutes": 19.7,
+   "train_asr": 0.472553135801668,
+   "train_at": 0.007945126524039855,
+   "train_sv": 0.19549305799854808,
+   "train_copy64m": 0.1471735034817378
+  }
+ ],
+ "deviations_from_paper": [
+  "student: Zipformer-S (~20M) instead of Zipformer-M (enhancement 1); teaching assistant = our 64M E0 model; Conv-Embed + stacks 1, 2, 6 inherited from E0",
+  "teachers: WavLM-Large / SSLAM / ReDimNet2-B6 (enhancement) instead of Whisper / BEATs / ECAPA",
+  "Stage 2 ASR: CTC with characters + greedy decoding instead of a neural transducer",
+  "Stage 2 AT on FSD50K (200 classes) instead of AudioSet; SV on VoxCeleb1 (30,000 training utterances)",
+  "rounds: Stage 1 trained in 3 rounds of 30 epochs (90 total); each round fine-tunes a fresh 15-epoch Stage 2 (paper: 15)",
+  "batch: 800 s of audio per batch (measured to fit the GPU; paper ~1000 s)",
+  "batches contain one task each (interleaved); every dataset is used completely in every epoch",
+  "fixed loss balancing by initial loss values; no checkpoint averaging"
+ ]
+}

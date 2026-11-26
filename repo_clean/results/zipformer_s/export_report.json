@@ -1,0 +1,196 @@
+{
+ "format": "mt2kd-export-v1",
+ "run_name": "mt2kd_S20_main",
+ "model_name": "Zipformer-S",
+ "checkpoint": "/content/drive/MyDrive/MT2KD/results/MT2KD_E2E_main_S20_TA_rounds_v2/stage2_round1/best.pt",
+ "created": "2026-11-24 12:15:35",
+ "parameters_deployed": 22213048,
+ "source": {
+  "run": "MT2KD_E2E_main_S20_TA_rounds_v2/stage2_round1",
+  "variant": "S20_TA",
+  "stage2_epoch": 15,
+  "update": 8962,
+  "stage2_finished": false,
+  "file_bytes": 273323723,
+  "validation_at_this_epoch": {
+   "asr_dev_wer": 0.4425940222785927,
+   "asr_dev_cer": 0.13890506697728597,
+   "at_val_mAP": 0.430713438545959,
+   "sv_val_eer": 0.05279999999999996
+  }
+ },
+ "model": {
+  "zip_args": {
+   "output_downsampling_factor": 2,
+   "downsampling_factor": [
+    1,
+    2,
+    4,
+    8,
+    4,
+    2
+   ],
+   "num_encoder_layers": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "encoder_dim": [
+    192,
+    256,
+    256,
+    256,
+    256,
+    256
+   ],
+   "encoder_unmasked_dim": [
+    192,
+    192,
+    192,
+    192,
+    192,
+    192
+   ],
+   "query_head_dim": [
+    32,
+    32,
+    32,
+    32,
+    32,
+    32
+   ],
+   "pos_head_dim": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "value_head_dim": [
+    12,
+    12,
+    12,
+    12,
+    12,
+    12
+   ],
+   "num_heads": [
+    4,
+    4,
+    4,
+    8,
+    4,
+    4
+   ],
+   "feedforward_dim": [
+    512,
+    768,
+    768,
+    768,
+    768,
+    768
+   ],
+   "cnn_module_kernel": [
+    31,
+    31,
+    15,
+    15,
+    15,
+    31
+   ],
+   "pos_dim": 48,
+   "causal": false
+  },
+  "msv": {
+   "C": 256,
+   "A": 128,
+   "D": 192
+  }
+ },
+ "checks": {
+  "asr": {
+   "utterances": 60,
+   "speakers": 10,
+   "wer": 0.41780376868096164,
+   "cer": 0.12924676580824568,
+   "identical_to_training_code": "59/60",
+   "training_dev_clean_wer": 0.4425940222785927
+  },
+  "cpu": {
+   "real_time_factor": 0.21111550317569214,
+   "threads": 1,
+   "tasks": "ASR greedy + AT + SV"
+  },
+  "sv": {
+   "value": 0.4283025606540205,
+   "status": "provisional",
+   "method": "EER threshold on LibriSpeech dev-clean pairs (1,770 pairs, 150 same-speaker; cross-domain)",
+   "eer": 0.013333333333333334,
+   "mean_cos_same": 0.7445030268127087,
+   "mean_cos_diff": 0.14200160706644627,
+   "model": "Zipformer-S",
+   "note": "same method as the Zipformer-M export (0.294); a VoxCeleb1-validation threshold can replace it later"
+  },
+  "lm": {
+   "lm": "3-gram.pruned.1e-7.arpa.gz",
+   "alpha": 0.7,
+   "beta": 3.0,
+   "beam": 64,
+   "decoder": "ctc_lm",
+   "model": "Zipformer-S",
+   "tuned_on": "LibriSpeech dev-clean, half A speakers (200 utts, app decoder; candidates [(0.5, 4.0), (0.5, 5.0), (0.4, 5.0), (0.7, 3.0)])",
+   "reported_on": "LibriSpeech dev-clean, half B speakers (300 utts, held out)",
+   "half_B": {
+    "greedy_wer": 0.44248225779831657,
+    "lm_wer": 0.1934312592837102,
+    "utterances": 300
+   },
+   "tuning": [
+    {
+     "alpha": 0.5,
+     "beta": 4.0,
+     "wer": 0.18365261813537676
+    },
+    {
+     "alpha": 0.5,
+     "beta": 5.0,
+     "wer": 0.19821200510855683
+    },
+    {
+     "alpha": 0.4,
+     "beta": 5.0,
+     "wer": 0.2247765006385696
+    },
+    {
+     "alpha": 0.7,
+     "beta": 3.0,
+     "wer": 0.16347381864623245
+    }
+   ],
+   "lm_decoding_run": {
+    "test_clean_greedy_wer_pct": 43.19,
+    "test_clean_lm_wer_pct": 26.64,
+    "note": "separate LM decoding run (its own decoder implementation, alpha 0.5 / beta 4.0)"
+   }
+  }
+ },
+ "sv_threshold": {
+  "value": 0.4283025606540205,
+  "status": "provisional",
+  "method": "EER threshold on LibriSpeech dev-clean pairs (1,770 pairs, 150 same-speaker; cross-domain)",
+  "eer": 0.013333333333333334,
+  "mean_cos_same": 0.7445030268127087,
+  "mean_cos_diff": 0.14200160706644627,
+  "model": "Zipformer-S",
+  "note": "same method as the Zipformer-M export (0.294); a VoxCeleb1-validation threshold can replace it later"
+ },
+ "zipformer_source": "copied from /content/drive/MyDrive/MT2KD/deploy/mt2kd_E0_main/zipformer_src.zip (same icefall code; identical transcripts verified)",
+ "env": {
+  "torch": "2.14.1+cpu",
+  "cpu_threads": 2
+ }
+}

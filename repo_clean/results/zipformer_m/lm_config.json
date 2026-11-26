@@ -1,0 +1,13 @@
+{
+ "lm": "3-gram.pruned.1e-7.arpa.gz",
+ "alpha": 0.7,
+ "beta": 3.0,
+ "beam": 64,
+ "decoder": "ctc_lm",
+ "tuned_on": "LibriSpeech dev-clean, half A speakers",
+ "reported_on": "LibriSpeech dev-clean, half B speakers",
+ "half_B": {
+  "greedy_wer": 0.4633132702780166,
+  "lm_wer": 0.20424906850100316
+ }
+}

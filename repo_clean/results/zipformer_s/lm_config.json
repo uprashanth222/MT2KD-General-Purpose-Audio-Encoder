@@ -1,0 +1,42 @@
+{
+ "lm": "3-gram.pruned.1e-7.arpa.gz",
+ "alpha": 0.7,
+ "beta": 3.0,
+ "beam": 64,
+ "decoder": "ctc_lm",
+ "model": "Zipformer-S",
+ "tuned_on": "LibriSpeech dev-clean, half A speakers (200 utts, app decoder; candidates [(0.5, 4.0), (0.5, 5.0), (0.4, 5.0), (0.7, 3.0)])",
+ "reported_on": "LibriSpeech dev-clean, half B speakers (300 utts, held out)",
+ "half_B": {
+  "greedy_wer": 0.44248225779831657,
+  "lm_wer": 0.1934312592837102,
+  "utterances": 300
+ },
+ "tuning": [
+  {
+   "alpha": 0.5,
+   "beta": 4.0,
+   "wer": 0.18365261813537676
+  },
+  {
+   "alpha": 0.5,
+   "beta": 5.0,
+   "wer": 0.19821200510855683
+  },
+  {
+   "alpha": 0.4,
+   "beta": 5.0,
+   "wer": 0.2247765006385696
+  },
+  {
+   "alpha": 0.7,
+   "beta": 3.0,
+   "wer": 0.16347381864623245
+  }
+ ],
+ "lm_decoding_run": {
+  "test_clean_greedy_wer_pct": 43.19,
+  "test_clean_lm_wer_pct": 26.64,
+  "note": "separate LM decoding run (its own decoder implementation, alpha 0.5 / beta 4.0)"
+ }
+}
